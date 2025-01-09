@@ -1,0 +1,54 @@
+#include "MyRandomMoverActor.h"
+#include "Engine/Engine.h"
+
+// 생성자
+AMyRandomMoverActor::AMyRandomMoverActor()
+{
+	// 이 Actor가 매 프레임마다 Tick을 호출하도록 설정
+	PrimaryActorTick.bCanEverTick = true;
+
+	// 초기 좌표를 (0, 0)으로 설정
+	CurrentX = 0;
+	CurrentY = 0;
+}
+
+// 게임 시작 시 호출되는 함수
+void AMyRandomMoverActor::BeginPlay()
+{
+	Super::BeginPlay();
+	
+	// 게임이 시작될 때 이동을 시작
+	Move();
+}
+
+// 매 프레임마다 호출되는 함수
+void AMyRandomMoverActor::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+}
+
+// 랜덤으로 이동하는 함수
+void AMyRandomMoverActor::Move()
+{
+	// 10번 랜덤 이동
+	for (int i = 0; i < 10; i++)
+	{
+		// 이동할 거리 계산
+		int32 stepX = Step();
+		int32 stepY = Step();
+
+		// 새로운 좌표 계산
+		CurrentX += stepX;
+		CurrentY += stepY;
+
+		// 새로운 좌표 출력
+		UE_LOG(LogTemp, Warning, TEXT("Step %d: New Coordinates: (%d, %d)"), i + 1, CurrentX, CurrentY);
+	}
+}
+
+// 0 또는 1을 랜덤으로 반환하는 함수
+int32 AMyRandomMoverActor::Step()
+{
+	// 0 또는 1을 랜덤으로 반환
+	return FMath::RandRange(0, 1);
+}
